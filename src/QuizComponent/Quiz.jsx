@@ -53,7 +53,15 @@ const Quiz = () => {
     };
 
     const ClickSubmit = () => {
-        
+        const ChiceTags = [...Choices.ChoiceButton]
+        const isCollect = ChiceTags.filter((choice) => (choice.isAns));
+        console.log(ButtonState[isCollect[0].id]);
+        if(ButtonState[isCollect[0].id].backgroundColor =="green"){
+            console.log("正解");    
+        }
+        else{
+            console.log("不正解");
+        }
     }
 
     return (

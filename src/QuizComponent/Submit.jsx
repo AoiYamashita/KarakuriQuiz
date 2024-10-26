@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Submit = (onClick) => {
+const Submit = ({onClick}) => {
     const onClickHandle = () => {
         onClick();
     }
