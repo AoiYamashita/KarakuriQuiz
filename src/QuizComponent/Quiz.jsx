@@ -56,7 +56,7 @@ const Quiz = () => {
         const ChiceTags = [...Choices.ChoiceButton]
         const isCollect = ChiceTags.filter((choice) => (choice.isAns));
         console.log(ButtonState[isCollect[0].id]);
-        if(ButtonState[isCollect[0].id].backgroundColor =="green"){
+        if(ButtonState[isCollect[0].id].backgroundColor === "green"){
             console.log("正解");    
         }
         else{
