@@ -4,6 +4,7 @@ import Question from "../QuizData.json"
 import Choice from "./Choice"
 import QuizText from "./QuizText"
 import Submit from "./Submit"
+import "./Quiz.css"
 import {v4 as uuidv4} from "uuid";
 
 const Quiz = () => {
@@ -65,7 +66,7 @@ const Quiz = () => {
     }
 
     return (
-        <div>
+        <div className='QuizDiv'>
             <QuizText text={Choices.QuestionText}/>
             {ButtonsGen()}
             <Submit onClick = {ClickSubmit}/>
