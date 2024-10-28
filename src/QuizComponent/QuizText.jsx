@@ -4,7 +4,7 @@ import "./QuizText.css"
 const QuizText = ({text}) => {
     return (
         <div>
-            <p className='quixtext'>{text}</p>
+            <p className='quiztext'>{text}</p>
         </div>
     )
 }

@@ -11,11 +11,13 @@ function App() {
     const location = useLocation()
     return (
         <AnimatePresence>
-            <Routes locations={location} key={location.pathname}>
-                <Route path="/" element={<Home />}/>
-                <Route path="/quiz" element={<Quiz />} />
-            </Routes>
-            <SideBar />
+            <motion.div className='MainDiv'>
+                <Routes locations={location} key={location.pathname}>
+                    <Route path="/" element={<Home />}/>
+                    <Route path="/quiz" element={<Quiz />} />
+                </Routes>
+                <SideBar />
+            </motion.div>
         </AnimatePresence>
     );
 }

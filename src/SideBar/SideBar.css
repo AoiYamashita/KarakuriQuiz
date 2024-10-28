@@ -24,7 +24,7 @@
 
 .SideBar {
     width: 100%;
-    height: 100vh;
+    height: auto;
     background-color: rgb(9, 9, 160);
 }
 

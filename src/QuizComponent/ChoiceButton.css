@@ -1,8 +1,14 @@
-button{
-    position: relative;
+.choicebutton{
+    margin-top: 5px;
     font-size: large;
     text-align: center;
     width: 200px;
-    height: 50px;
-    translate: 50%,50%;
+    height: 6vh;
+}
+
+.SubmitButton{
+    font-size: large;
+    text-align: center;
+    width: 200px;
+    height: 6vh;
 }

@@ -2,22 +2,27 @@ import React from 'react'
 import { useState} from "react";
 import {SideBarData} from './SideBarData'
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { delay, motion } from 'framer-motion';
 
 import "./SideBar.css"
 
 const SideBar = () => {
     const [Visible,setBisible] = useState({state: false});
-    const visibleHandle = () => {
-        console.log(Visible)
-        setBisible({state:!Visible.state});
-    }
+    const visibleHandle = () => {setBisible({state:!Visible.state});}
     return (
         <motion.div className='SideBarDiv'
-            initial={{width : "30%",height:"20%"}}
-            animate={Visible.state ? {width:"50%",height:"100%"} : {width:"30%",height:"20%"}}
+            initial={{
+                width : "100%",
+                height:"20%",
+                backgroundColor:" rgba(9, 9, 160,0)"}}
+            animate={
+                Visible.state ? 
+                {width:"200px",height:"100%",backgroundColor:" rgb(9, 9, 160)"} : 
+                {width:"100px",height:"20%",backgroundColor:" rgba(9, 9, 160,0)"}}
             transition={{
-                ease: "linear"
+                delay: (Visible.state ? 0 :0.2 ),
+                duration: 0.1,
+                case:"linear"
             }
             }
         >
@@ -26,20 +31,28 @@ const SideBar = () => {
             </p>
             <motion.div
                 className='SideBar'
-                initial={{x : -200}}
-                animate={Visible.state ? {x : 0} : {x : -200}}
+                initial={
+                    {opacity : 0}
+                }
+                animate={
+                    Visible.state ? 
+                    {opacity : 1} : 
+                    {opacity : 0}
+                }
                 transition={{
+                    delay: (Visible.state ? 0.2 : 0),
+                    duration: 0.1,
                     ease: "linear"
                 }
                 }
-                exit={{x:-100}}
+                exit={{opacity:0}}
             >
                 <ul>
                     {
                     SideBarData.map(
                     (value ,key) => {
                         return (
-                        <li key = {key}>
+                        <li onClick={visibleHandle} key = {key}>
                             <Link className='SideLink' to={value.path}>
                                 {value.text}
                             </Link>

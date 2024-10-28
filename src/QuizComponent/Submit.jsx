@@ -1,13 +1,13 @@
 import React from 'react'
 
-const Submit = ({onClick}) => {
+const Submit = ({onClick,text}) => {
     const onClickHandle = () => {
         onClick();
     }
     return (
         <div>
-            <button onClick={onClickHandle}>
-                答え合わせ
+            <button className= "SubmitButton" onClick={onClickHandle}>
+                {text}
             </button>
         </div>
     )

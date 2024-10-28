@@ -1,15 +1,16 @@
 import React from 'react'
 import { useState, useRef } from "react";
-import Question from "../QuizData.json"
+import { Question } from "./QuizData"
 import Choice from "./Choice"
 import QuizText from "./QuizText"
 import Submit from "./Submit"
 import "./Quiz.css"
+import "./ChoiceButton.css"
+import {AnimatePresence, motion } from "framer-motion"
 import {v4 as uuidv4} from "uuid";
 
 const Quiz = () => {
     const ChoiceNum = 4;
-
     const ButtonStateInit = () => {
         const UC = [];
         for(var i = 0;i < ChoiceNum;i++)
@@ -18,8 +19,8 @@ const Quiz = () => {
     }
     
     const QuestionInit = () => {
-        const QuestionId = Math.floor(Math.random()*5);
-        const Quiz = Question["Question"+QuestionId];
+        const QuestionId = Math.floor(Math.random()*Question.length);
+        const Quiz = Question[QuestionId];
         var QuizChoice = [...Quiz["choice"]];
         var ansFlag = Math.floor(Math.random()*ChoiceNum);
 
@@ -35,11 +36,12 @@ const Quiz = () => {
                 QuizChoice.splice(randomNum,1);
             }
         }
-        return {QuestionText: Quiz["text"],ChoiceButton:ChoiceButttonText};
+        return {QuestionText: Quiz["text"],ChoiceButton:ChoiceButttonText,hintText: Quiz["hint"],comment: Quiz["comment"]};
     }
 
     const [ButtonState,setButtonState] = useState(ButtonStateInit());
-    const [Choices,setChoices] = useState(QuestionInit());    
+    const [Choices,setChoices] = useState(QuestionInit());
+    const [Correct,setCorrect] = useState({isAnswerd : false,state:false});
 
     const UserClickHandle = (id) => {
         const ChoicesButton = [...Choices.ChoiceButton];
@@ -54,22 +56,53 @@ const Quiz = () => {
     };
 
     const ClickSubmit = () => {
+        if(Correct.isAnswerd){
+            setButtonState(ButtonStateInit());
+            setChoices(QuestionInit());
+            setCorrect({isAnswerd : false,state:false});
+            return
+        }
         const ChiceTags = [...Choices.ChoiceButton]
         const isCollect = ChiceTags.filter((choice) => (choice.isAns));
-        console.log(ButtonState[isCollect[0].id]);
+        //console.log(ButtonState[isCollect[0].id]);
         if(ButtonState[isCollect[0].id].backgroundColor === "green"){
-            console.log("正解");    
+            setCorrect({isAnswerd : true,state:true});
         }
         else{
-            console.log("不正解");
+            setCorrect({isAnswerd : true,state:false});
         }
     }
 
     return (
         <div className='QuizDiv'>
             <QuizText text={Choices.QuestionText}/>
-            {ButtonsGen()}
-            <Submit onClick = {ClickSubmit}/>
+            <div className='Buttons'>
+                {ButtonsGen()}
+            </div>
+            <motion.div className='resultMoniter'
+                initial={
+                    {
+                        visibility:'hidden',
+                        opacity:0
+                    }
+                }
+                animate={
+                    {   
+                        visibility:(Correct.isAnswerd) ?  'visible' : 'hidden' ,
+                        opacity:(Correct.isAnswerd) ?  1 : 0
+                    }
+                }
+            >
+                <p className='result'>
+                    {Correct.state ? "正解" : "不正解"}
+                </p>
+                <p className='hint'>
+                    {Correct.state ?  Choices.comment: Choices.hintText}
+                </p>
+            </motion.div>
+            <div className = "SubmitButton">
+                <Submit onClick = {ClickSubmit} text = {(Correct.isAnswerd) ? "次の問題":"答え合わせ"}/>    
+            </div>
         </div>
     )
 }
