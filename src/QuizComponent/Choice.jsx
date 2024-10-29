@@ -7,8 +7,8 @@ const Choice = ({item,ButtonStyle,ClickHandle}) => {
         ClickHandle(item.id);
     }
     return (
-        <div>
-            <button className = "choicebutton" style = {ButtonStyle[item.id]} onClick={onClickHandle} key={item.id}>{Choice}</button>
+        <div className = "choicebutton">
+            <button  style = {ButtonStyle[item.id]} onClick={onClickHandle} key={item.id}>{Choice}</button>
         </div>
     )
 }

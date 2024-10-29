@@ -5,8 +5,8 @@ const Submit = ({onClick,text}) => {
         onClick();
     }
     return (
-        <div>
-            <button className= "SubmitButton" onClick={onClickHandle}>
+        <div className= "SubmitButton" >
+            <button onClick={onClickHandle}>
                 {text}
             </button>
         </div>

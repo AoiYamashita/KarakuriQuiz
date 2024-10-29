@@ -14,7 +14,7 @@ const Quiz = () => {
     const ButtonStateInit = () => {
         const UC = [];
         for(var i = 0;i < ChoiceNum;i++)
-            UC.push({backgroundColor:"aliceblue"});
+            UC.push({backgroundColor:"black"});
         return UC;
     }
     
@@ -45,7 +45,7 @@ const Quiz = () => {
 
     const UserClickHandle = (id) => {
         const ChoicesButton = [...Choices.ChoiceButton];
-        setButtonState(ChoicesButton.map((CC) => CC.id === id ? {backgroundColor:"green"} : {backgroundColor:"aliceblue"}));
+        setButtonState(ChoicesButton.map((CC) => CC.id === id ? {backgroundColor:"green"} : {backgroundColor:"black"}));
     };
 
     const ButtonsGen = () => {
@@ -74,8 +74,17 @@ const Quiz = () => {
     }
 
     return (
-        <div className='QuizDiv'>
-            <QuizText text={Choices.QuestionText}/>
+        <motion.div className='QuizDiv'
+            initial={{
+                opacity:0
+            }}
+            animate={{
+                opacity:1
+            }}
+        >
+            <div className="QuizText">
+                <QuizText text={Choices.QuestionText}/>
+            </div>
             <div className='Buttons'>
                 {ButtonsGen()}
             </div>
@@ -89,21 +98,31 @@ const Quiz = () => {
                 animate={
                     {   
                         visibility:(Correct.isAnswerd) ?  'visible' : 'hidden' ,
-                        opacity:(Correct.isAnswerd) ?  1 : 0
+                        opacity:(Correct.isAnswerd) ?  1 : 0,
+                    }
+                }
+                exit={
+                    {
+                        visibility:'hidden',
+                        opacity:0
                     }
                 }
             >
                 <p className='result'>
-                    {Correct.state ? "正解" : "不正解"}
+                    {(Correct.isAnswerd) ? (Correct.state ? "正解" : "不正解") : ""}
                 </p>
                 <p className='hint'>
-                    {Correct.state ?  Choices.comment: Choices.hintText}
+                    {(Correct.isAnswerd) ? (Correct.state ?  Choices.comment: Choices.hintText) : ""}
                 </p>
+                <div className = "NextButton">
+                    <Submit onClick = {ClickSubmit} text = "次の問題"/>
+                </div>
+
             </motion.div>
             <div className = "SubmitButton">
-                <Submit onClick = {ClickSubmit} text = {(Correct.isAnswerd) ? "次の問題":"答え合わせ"}/>    
+                <Submit onClick = {ClickSubmit} text = "答え合わせ"/>    
             </div>
-        </div>
+        </motion.div>
     )
 }
 
