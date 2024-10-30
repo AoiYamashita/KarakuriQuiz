@@ -2,7 +2,6 @@ import './App.css';
 import Quiz from "./QuizComponent/Quiz"
 import Home from './Home/Home';
 import SideBar from './SideBar/SideBar';
-import {SideBarData as Data} from './SideBar/SideBarData';
 import {AnimatePresence, motion } from "framer-motion";
 
 import {useLocation ,Route ,Routes} from "react-router-dom";

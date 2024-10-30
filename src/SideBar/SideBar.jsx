@@ -32,12 +32,16 @@ const SideBar = () => {
             <motion.div
                 className='SideBar'
                 initial={
-                    {opacity : 0}
+                    {
+                        opacity : 0,
+                        x:-100
+                    }
                 }
                 animate={
-                    Visible.state ? 
-                    {opacity : 1} : 
-                    {opacity : 0}
+                {
+                    opacity : Visible.state ? 1 : 0,
+                    x : Visible.state ? 0 : -100
+                }
                 }
                 transition={{
                     delay: (Visible.state ? 0.2 : 0),

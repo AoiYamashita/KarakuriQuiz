@@ -1,3 +1,83 @@
-.Sample{
-    font-size: 100px;
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.GearGameDiv{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%;
+    height: 90%;
+    display: grid;
+    grid-template: 
+    "Game" 1fr
+    /1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.Game{
+    grid-area: Game;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    justify-items: center;
+    grid-template: 
+    "stacks" 1fr
+    "Gears" 0.4fr
+    /1fr;
+}
+
+.stakesDiv{
+    border: 10px double black;
+    display: flex;
+    justify-content: center;
+    grid-area: stacks;
+    width: 100%;
+    height: 100%;
+    background-color: aqua;
+}
+
+.GearsDiv{
+    border: 10px double black;
+    display: flex;
+    justify-content: center;
+    grid-area: Gears;
+    width: 100%;
+    height: 100%;
+}
+
+.stakes{
+    position: absolute;
+    text-align: center;
+}
+
+.setLevels{
+    grid-area: Game;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template: 
+    "." 10vh
+    "title" 10vh
+    "levels" 1fr
+    /1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.title{
+    grid-area: title;
+    text-align: center;
+    width: 100%;
+    font-size: 30px;
+}
+
+.setLevels ul{
+    grid-area: levels;
+    text-align: center;
+    width: 50%;
+    font-size: 50px;
 }
