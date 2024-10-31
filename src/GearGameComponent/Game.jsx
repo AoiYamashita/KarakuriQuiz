@@ -4,6 +4,8 @@ import { GearGameData } from './GearGameData';
 import { motion } from 'framer-motion'
 import "./GearGame.css"
 
+import {useWindowSize} from 'react-use';
+
 import stakeImg from './stakeImg.png'
 import gear10 from './gear10.png'
 import gear14 from './gear14.png'
@@ -12,7 +14,9 @@ import gear20 from './gear20.png'
 import { button } from 'framer-motion/client';
 
 const Game = ({state,lv,UsingGears,setUsingGears }) => {
-    const Gears = [10,14,18,20].map((value) => {return value*5})
+    const { width, height } = useWindowSize();
+    
+    const Gears = [10,14,18,20].map((value) => {return value*height/183})
 
     const [ChoiceGear,setChoiceGear] = useState({id:0});
 
@@ -40,6 +44,7 @@ const Game = ({state,lv,UsingGears,setUsingGears }) => {
 
             StakeCoord.push([StakeCoord[StakeCoord.length-1][0]+b*Math.cos(theta),StakeCoord[StakeCoord.length-1][1]+b*Math.sin(theta)]);
         }
+        console.log(StakeCoord)
         return StakeCoord.map(
             (i,key) => {
                 return <motion.img 
@@ -50,8 +55,8 @@ const Game = ({state,lv,UsingGears,setUsingGears }) => {
                             y:0
                         }}
                         animate={{
-                            x:i[0],
-                            y:i[1],
+                            x:i[0]+"px",
+                            y:i[1]+"px",
                         }
                         }
                         transition={{
@@ -94,7 +99,7 @@ const Game = ({state,lv,UsingGears,setUsingGears }) => {
                                 style={{
                                     position:'absolute',
                                     aspectRatio: '1/1',
-                                    width : 2*Gears[key]+10
+                                    width : (2*Gears[key]+10+"px")
                                 }}
                                 initial = {{
                                     x:0,
