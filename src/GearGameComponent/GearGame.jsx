@@ -13,6 +13,13 @@ const GearGame = () => {
                                                         GearGameData[Level].answer.filter(i => i === 1).length,
                                                         GearGameData[Level].answer.filter(i => i === 2).length,
                                                         GearGameData[Level].answer.filter(i => i === 3).length] : [])
+    const [GearsState,setGearsState] = useState(UsingGears.map(
+        (value,key) => {
+            const ref = []
+            for(var i = 0;i < value;i++)
+                ref.push({gearNum : key,key:i,setStake:false,stakeNum:-1,Moved:false})
+            return ref
+        }));
     return (
         <motion.div className='GearGameDiv'
             initial={{
@@ -22,8 +29,8 @@ const GearGame = () => {
                 opacity:1
             }}
         >
-            <Game state={State} lv={Level} UsingGears = {UsingGears} setUsingGears = {setUsingGears}/>
-            <SetLevels state={State} setState={setState} setLevelHandle={setLevel} setGears={setUsingGears}/>
+            <Game state={State} lv={Level} UsingGears = {UsingGears} setUsingGears = {setUsingGears}setGearsState={setGearsState} GearsState={GearsState}/>
+            <SetLevels state={State} setState={setState} setLevelHandle={setLevel} setGears={setUsingGears} setGearsState={setGearsState}/>
         </motion.div>
     )
 }

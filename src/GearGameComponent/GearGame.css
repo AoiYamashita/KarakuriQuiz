@@ -38,6 +38,7 @@ body{
     border: 10px double black;
     display: flex;
     justify-content: center;
+    align-content: center;
     grid-area: stacks;
     width: 100%;
     height: 100%;
