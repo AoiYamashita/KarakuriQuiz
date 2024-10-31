@@ -23,7 +23,7 @@ const Game = ({state,lv}) => {
         const GameConfig = GearGameData[lv];
     
         const startArg = GameConfig.arg;
-        const space = 10;    
+        const space = 15;    
 
         const stakes = [...GameConfig.answer];
         const FirstLength = Gears[stakes[0]]+Gears[stakes[1]];
