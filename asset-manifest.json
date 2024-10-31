@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/KarakuriQuiz/static/css/main.2a325ebd.css",
-    "main.js": "/KarakuriQuiz/static/js/main.0bc5e7f1.js",
+    "main.css": "/KarakuriQuiz/static/css/main.5a648821.css",
+    "main.js": "/KarakuriQuiz/static/js/main.ca8143fb.js",
     "static/media/stakeImg.png": "/KarakuriQuiz/static/media/stakeImg.3a28a9517c92e23713d3.png",
     "static/media/BackGroundKiban.png": "/KarakuriQuiz/static/media/BackGroundKiban.4f796466efdf67240b18.png",
     "static/media/button.png": "/KarakuriQuiz/static/media/button.045582c35fa09c0b9967.png",
@@ -10,11 +10,11 @@
     "static/media/gear20.png": "/KarakuriQuiz/static/media/gear20.59bfcbd69cebdf6a0501.png",
     "static/media/gear10.png": "/KarakuriQuiz/static/media/gear10.599a2fe87bc805df0c5b.png",
     "index.html": "/KarakuriQuiz/index.html",
-    "main.2a325ebd.css.map": "/KarakuriQuiz/static/css/main.2a325ebd.css.map",
-    "main.0bc5e7f1.js.map": "/KarakuriQuiz/static/js/main.0bc5e7f1.js.map"
+    "main.5a648821.css.map": "/KarakuriQuiz/static/css/main.5a648821.css.map",
+    "main.ca8143fb.js.map": "/KarakuriQuiz/static/js/main.ca8143fb.js.map"
   },
   "entrypoints": [
-    "static/css/main.2a325ebd.css",
-    "static/js/main.0bc5e7f1.js"
+    "static/css/main.5a648821.css",
+    "static/js/main.ca8143fb.js"
   ]
 }
