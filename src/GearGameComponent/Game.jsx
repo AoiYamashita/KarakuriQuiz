@@ -3,21 +3,23 @@ import { useState} from "react";
 import { GearGameData } from './GearGameData';
 import { motion } from 'framer-motion'
 import "./GearGame.css"
+
 import stakeImg from './stakeImg.png'
 import gear10 from './gear10.png'
 import gear14 from './gear14.png'
 import gear18 from './gear18.png'
 import gear20 from './gear20.png'
+import { button } from 'framer-motion/client';
 
-const Game = ({state,lv}) => {
+const Game = ({state,lv,UsingGears,setUsingGears }) => {
     const Gears = [10,14,18,20].map((value) => {return value*5})
 
-    const [UsingGear,setUsingGear] = useState({id:0});
+    const [ChoiceGear,setChoiceGear] = useState({id:0});
 
     const makeStakes = () => {
-       
         if(!state){
             return [];
+
         }
 
         const GameConfig = GearGameData[lv];
@@ -39,28 +41,44 @@ const Game = ({state,lv}) => {
             StakeCoord.push([StakeCoord[StakeCoord.length-1][0]+b*Math.cos(theta),StakeCoord[StakeCoord.length-1][1]+b*Math.sin(theta)]);
         }
         return StakeCoord.map(
-                (i,key) => {
-                    return <motion.img 
-                            className='stakes'
-                            key={key} 
-                            initial ={{
-                                x:0,
-                                y:0
-                            }}
-                            animate={{
-                                x:i[0],
-                                y:i[1],
-                            }
-                            }
-                            transition={{
-                                duration:0.001
-                            }
-                            }
-                            src = {stakeImg}
-                            width= "30"
-                            height = "30"
-                        />
-            });
+            (i,key) => {
+                return <motion.img 
+                        className='stakes'
+                        key={key} 
+                        initial ={{
+                            x:0,
+                            y:0
+                        }}
+                        animate={{
+                            x:i[0],
+                            y:i[1],
+                        }
+                        }
+                        transition={{
+                            duration:0.001
+                        }
+                        }
+                        src = {stakeImg}
+                        width= "30"
+                        height = "30"
+                    />
+            })
+
+    }
+
+    const GearDrag = (e) => {
+        console.log(e.x);
+    }
+
+    const nextGears = () => {
+        const newId = ChoiceGear.id + 1
+        if(newId <= 3)
+            setChoiceGear({id:newId})
+    }
+    const prevGears = () => {
+        const newId = ChoiceGear.id - 1
+        if(newId >= 0)
+            setChoiceGear({id:newId})
     }
 
     const makeGears = () => {
@@ -68,19 +86,49 @@ const Game = ({state,lv}) => {
             return;
         }
         const GearImgNum = [gear10,gear14,gear18,gear20]
-        return GearImgNum.map((value ,key) => {
-            return <motion.img 
-                className='Gears'
-                drag
-                style={{
-                    position:'absolute',
-                    aspectRatio: '1/1',
-                    width : 2*Gears[key]+10
-                }}
-                src = {value}
-                key={key}
-                />
-            })
+        const madeGears = GearImgNum.map((value ,key) => {
+                    return (<motion.img 
+                                className='Gears'
+                                onDrag={GearDrag}
+                                drag
+                                style={{
+                                    position:'absolute',
+                                    aspectRatio: '1/1',
+                                    width : 2*Gears[key]+10
+                                }}
+                                initial = {{
+                                    x:0,
+                                    y:0,
+                                    opacity:0
+                                }
+                                }
+                                animate = {{
+                                    x:ChoiceGear.id === key ? 0 : (ChoiceGear.id < key ? 1000 : -1000),
+                                    y:0,
+                                    opacity:ChoiceGear.id === key ? 1 : 0
+                                }
+                                }
+                                src = {value}
+                                key={key}
+                                />)
+                        
+            });
+        return [
+        <motion.button className="PrevGearButton" key="prevButton" onClick={prevGears}
+        initial={{opacity:1,visibility:"visible"}}
+        animate={{
+            opacity:ChoiceGear.id > 0 ? 1 : 0,
+            visibility:ChoiceGear.id > 0 ? "visible" : "hidden"
+        }}
+        >{"<"}</motion.button>,
+        <div key = "madeGearDiv" className='ChoiceGears'>{[...madeGears]}</div>,
+        <motion.button className="NextGearButton" key="nextButton" onClick={nextGears}
+        initial={{opacity:1,visibility:"visible"}}
+        animate={{
+            opacity:ChoiceGear.id < 3 ? 1 : 0,
+            visibility:ChoiceGear.id < 3 ? "visible" : "hidden"
+        }}
+        >{">"}</motion.button>]
     }
 
     return (
@@ -99,6 +147,7 @@ const Game = ({state,lv}) => {
             </div>
             <div className='GearsDiv'>
                 {makeGears()}
+                <p className='UsingGearsP'>{UsingGears[ChoiceGear.id]}</p>
             </div>
             
         </motion.div>

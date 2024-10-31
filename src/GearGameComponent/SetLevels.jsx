@@ -3,7 +3,7 @@ import React from 'react'
 import { GearGameData } from './GearGameData'
 import "./GearGame.css"
 
-const SetLevels = ({state,setState,setLevelHandle}) => {
+const SetLevels = ({state,setState,setLevelHandle,setGears}) => {
     const Size = GearGameData.length;
     const GearGameDataCopy = [...GearGameData];
     const StartGearSize = 10;
@@ -27,8 +27,14 @@ const SetLevels = ({state,setState,setLevelHandle}) => {
                 (value,key) => {
                     return (
                     <li onClick={() => {
-                        setLevelHandle(key);
-                        setState(true);
+                        const newLv = key;
+                        const newState = true
+                        setLevelHandle(newLv);
+                        setState(newState);
+                        setGears([GearGameData[newLv].answer.filter(i => i === 0).length,
+                                    GearGameData[newLv].answer.filter(i => i === 1).length,
+                                    GearGameData[newLv].answer.filter(i => i === 2).length,
+                                    GearGameData[newLv].answer.filter(i => i === 3).length]);
                     }} key={key}>
                         LEVEL{key}
                     </li>
