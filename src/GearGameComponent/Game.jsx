@@ -13,7 +13,7 @@ import gear18 from './gear18.png'
 import gear20 from './gear20.png'
 import GearResult from './GearResult';
 
-const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
+const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvState}) => {
     const stakeRef = useRef();
     const GearRef = useRef();
   
@@ -23,12 +23,17 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
 
     const stakeArea = 30*height/183;
     
-    const Gears = [10,14,18,20].map((value) => {return value*height/183})
+    const Gears = [10,14,18,20].map((value) => {return value*height/200})
 
     const [ChoiceGear,setChoiceGear] = useState({id:0});
     const [StakeState,setStakeState] = useState([]);
     const [CoordFix,setCoordFix] = useState([]);
     const [Complete,setComplete] = useState(false);
+
+    const resetGames = () => {
+        setChoiceGear({id:0});
+        setComplete(false);
+    }
 
     var stakesCoord;
 
@@ -317,7 +322,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
                 {makeGears()}
                 <p className='UsingGearsP'>{UsingGears[ChoiceGear.id]}</p>
             </div>
-            <GearResult Comp = {Complete}/>
+            <GearResult Comp = {Complete} lv = {lv} setLvState={setLvState} resetGames={resetGames}/>
         </motion.div>
     )
 }

@@ -8,12 +8,12 @@ export const GearGameData = [
     },
     {
         node: 6,
-        arg : 0,
-        answer:[2,3,0,1,2,1],//gear 0~3
+        arg : Math.PI/2,
+        answer:[0,3,0,1,2,0],//gear 0~3
     },
     {
         node: 7,
-        arg : 0,
-        answer:[2,3,0,1,3,2,1],//gear 0~3
+        arg : Math.PI/2,
+        answer:[0,2,0,1,3,2,0],//gear 0~3
     }
 ]
