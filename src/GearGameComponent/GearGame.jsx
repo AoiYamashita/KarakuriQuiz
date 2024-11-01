@@ -5,6 +5,7 @@ import { GearGameData } from './GearGameData';
 
 import SetLevels from './SetLevels';
 import Game from './Game';
+import GearResult from './GearResult';
 
 const GearGame = () => {
     const [Level,setLevel] = useState(-1);
@@ -17,7 +18,7 @@ const GearGame = () => {
         (value,key) => {
             const ref = []
             for(var i = 0;i < value;i++)
-                ref.push({gearNum : key,key:i,setStake:false,stakeNum:-1,Moved:false})
+                ref.push({gearNum : key,key:i,setStake:false,stakeNum:-1,Correct:false})
             return ref
         }));
     return (

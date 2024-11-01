@@ -11,13 +11,14 @@ import gear10 from './gear10.png'
 import gear14 from './gear14.png'
 import gear18 from './gear18.png'
 import gear20 from './gear20.png'
-import { button } from 'framer-motion/client';
-import GearControll from './GearControll';
+import GearResult from './GearResult';
 
 const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
     const stakeRef = useRef();
     const GearRef = useRef();
   
+    const GearSpeed = 0.1
+
     const { width, height } = useWindowSize();
 
     const stakeArea = 30*height/183;
@@ -27,6 +28,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
     const [ChoiceGear,setChoiceGear] = useState({id:0});
     const [StakeState,setStakeState] = useState([]);
     const [CoordFix,setCoordFix] = useState([]);
+    const [Complete,setComplete] = useState(false);
 
     var stakesCoord;
 
@@ -66,7 +68,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
             StakeCoord.push([StakeCoord[StakeCoord.length-1][0]+b*Math.cos(theta),StakeCoord[StakeCoord.length-1][1]+b*Math.sin(theta)]);
         }
         stakesCoord = StakeCoord
-        return StakeCoord.map(
+        return [...StakeCoord.map(
             (i,key) => {
                 return <motion.img 
                         onAnimationComplete={setPosition}
@@ -86,11 +88,69 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
                         }
                         }
                         src = {stakeImg}
-                        width= {10*height/183}
-                        height = {10*height/183}
+                        width= {6.5*height/183}
+                        height = {6.5*height/183}
                     />
-            })
-
+            }),
+            <motion.img 
+            className='stakesGears'
+            style={{
+                position:'absolute',
+                aspectRatio: '1/1',
+                width : (2*Gears[0]+10+"px")
+            }}
+            initial = {{
+                x : stakesCoord[0][0],
+                y : stakesCoord[0][1]+6.5*height/(183*2)-(Gears[0]+5),
+            }
+            }
+            animate = {{
+                x : stakesCoord[0][0],
+                y : stakesCoord[0][1]+6.5*height/(183*2)-(Gears[0]+5),
+                rotate:360
+            }
+            }
+            transition= {{
+                ease:'linear',
+                duration:GearSpeed*Gears[0],
+                repeat: Infinity
+            }
+            }
+            src = {gear10}
+            key={"start"}
+            />,
+            <motion.img 
+            className='stakesGears'
+            style={{
+                position:'absolute',
+                aspectRatio: '1/1',
+                width : (2*Gears[0]+10+"px")
+            }}
+            initial = {{
+                x : stakesCoord[stakesCoord.length-1][0],
+                y : stakesCoord[stakesCoord.length-1][1]+6.5*height/(183*2)-(Gears[0]+5),
+            }
+            }
+            animate = {{
+                x : stakesCoord[stakesCoord.length-1][0],
+                y : stakesCoord[stakesCoord.length-1][1]+6.5*height/(183*2)-(Gears[0]+5),
+                rotate : Complete ? (stakes.length% 2 == 0 ? [0,-360] : [0,360]) : [0,0]
+            }
+            }
+            transition= {{
+                rotate :{
+                    ease:'linear',
+                    repeat:Infinity,
+                    duration:GearSpeed*Gears[0],
+                },
+                default:{
+                    ease:'linear'
+                }
+            }
+            }
+            src = {gear10}
+            key={"gorl"}
+            />]
     }
 
     const nextGears = () => {
@@ -105,28 +165,52 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
     }
 
     const DragEndHandle = (key,key_) => (e) => {
+        const UsingGearCopy = [...UsingGears];
         const prefStatus = GearsState[key][key_];
         const NewGearsState = [...GearsState]
+        const Ans = GearGameData[lv].answer
+        const Filterd = NewGearsState.map((value) => {return value.filter((value_) => (value_.setStake))})
+        const AlreadySet = [...Filterd[0] ,...Filterd[1],...Filterd[2],...Filterd[3]].map((value) => {return value.stakeNum})
+        AlreadySet.push(0);
+        AlreadySet.push(Ans.length-1);
         if (GearRef.current) {
+            DragStartHandle(key,key_)
             const rect = GearRef.current.getBoundingClientRect();
             const fix = {
                 x: 0,    // x座標
                 y:- StakeState.y - rect.y,    // y座標
             };
-            console.log(StakeState.y,rect.y)
             setCoordFix(fix);
             var flag = true;
             var mini = stakeArea;
             for(var i = 0;i < GearGameData[lv].answer.length;i++){
                 if(Math.sqrt((stakesCoord[i][0]-e.x+StakeState.x)*(stakesCoord[i][0]-e.x+StakeState.x) + (stakesCoord[i][1]-e.y+StakeState.y)*(stakesCoord[i][1]-e.y+StakeState.y)) < mini){
-                    NewGearsState[key][key_] = {gearNum : prefStatus.gearNum,key:prefStatus.key,setStake:true,stakeNum:i,Moved:false};
+                    if((AlreadySet.filter((value) => (i === value)).length > 0)){
+                        NewGearsState[key][key_] = prefStatus;
+                        continue;
+                    }
+                    NewGearsState[key][key_] = {gearNum : prefStatus.gearNum,key:prefStatus.key,setStake:true,stakeNum:i,Correct:(key===Ans[i])};
                     mini = Math.sqrt((stakesCoord[i][0]-e.x+StakeState.x)*(stakesCoord[i][0]-e.x+StakeState.x) + (stakesCoord[i][1]-e.y+StakeState.y)*(stakesCoord[i][1]-e.y+StakeState.y))
                     flag = false;
                 }
             }
+            if(flag){
+                NewGearsState[key][key_] = {gearNum : prefStatus.gearNum,key:prefStatus.key,setStake:false,stakeNum:-1,Correct:false};
+            }
         }
-        if(flag)
-            NewGearsState[key][key_] = {gearNum : prefStatus.gearNum,key:prefStatus.key,setStake:false,stakeNum:-1,Moved:false};
+        UsingGearCopy[key] = (NewGearsState[key].filter((value) => (!value.setStake))).length;
+
+        const isCompArr = NewGearsState.map((value) => {return value.map((value_) => (value_.Correct ? value_.stakeNum : {}))})
+
+        const isComp = [...isCompArr[0],...isCompArr[1],...isCompArr[2],...isCompArr[3]].filter((value) => (value !== undefined))
+        isComp.sort((first,second) => first-second)
+
+        if((isComp.filter((value,index) => (value === index+1))).length === (Ans.length-2))
+            setComplete(true);
+        else
+            setComplete(false);
+
+        setUsingGears(UsingGearCopy)
         setGearsState(NewGearsState)
     }
 
@@ -134,7 +218,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
         const prefStatus = GearsState[key][key_];
         const NewGearsState = [...GearsState]
         
-        NewGearsState[key][key_] = {gearNum : prefStatus.gearNum,key:prefStatus.key,setStake:false,stakeNum:-1,Moved:false};
+        NewGearsState[key][key_] = {gearNum : prefStatus.gearNum,key:prefStatus.key,setStake:false,stakeNum:-1,Correct:false};
         setGearsState(NewGearsState)
     }
 
@@ -142,14 +226,24 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
         if(!state){
             return;
         }
-        const GearsStateCopy = [...GearsState]
-        const GearImgNum = [gear10,gear14,gear18,gear20]
+        const GearsStateCopy = [...GearsState];
+
+        const CorrectGears = GearsStateCopy.map((value ,key) => {return value.map((value_,key_) => {
+            if(!value_.Correct) return ;
+            return {id:value_.stakeNum,Num:[key,key_]}
+        })});
+
+        const CChain = ([...CorrectGears[0],...CorrectGears[1],...CorrectGears[2],...CorrectGears[3]].filter((value) => (value !== undefined)));
+        CChain.sort((first,second) => first.id-second.id);
+        const ConnectChain = CChain.filter((value,index) => (value.id === index+1));
+
+
+        const GearImgNum = [gear10,gear14,gear18,gear20];
         const Gearstree = GearsStateCopy.map((value_ ,key) => {
                     return value_.map((value,key_) => {
                         return <motion.img 
                                 className='Gears'
                                 onDragEnd={DragEndHandle(key,key_)}
-                                onDragEnter={DragStartHandle(key,key_)}
                                 drag
                                 style={{
                                     position:'absolute',
@@ -165,12 +259,20 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
                                 animate = {{
                                     x : value.setStake ? stakesCoord[value.stakeNum][0]+CoordFix.x : (ChoiceGear.id === key ? 0 : (ChoiceGear.id < key ? 1000 : -1000)),
                                     y : value.setStake ? stakesCoord[value.stakeNum][1]+CoordFix.y : 0,
-                                    opacity:value.setStake ? 1 : (ChoiceGear.id === key ? 1 : 0)
+                                    opacity:value.setStake ? 1 : (ChoiceGear.id === key ? 1 : 0),
+                                    rotate : (ConnectChain.filter((value) => ((value.Num[0] === key) && (value.Num[1] === key_))).length === 0) ? [0,0]:((ConnectChain.filter((value) => (value.Num[0] === key) && (value.Num[1] === key_))[0].id % 2 === 0) ? [0,360] :[0,-360] )
                                 }
                                 }
                                 transition= {{
-                                    type:'spring',
-                                    damping:10
+                                    rotate : {
+                                        ease:'linear',
+                                        repeat:Infinity,
+                                        duration:GearSpeed*Gears[key],
+                                    },
+                                    default :{
+                                        type:'spring',
+                                        stiffness: 500, damping: 30
+                                    }
                                 }
                                 }
                                 src = {GearImgNum[key]}
@@ -215,7 +317,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState}) => {
                 {makeGears()}
                 <p className='UsingGearsP'>{UsingGears[ChoiceGear.id]}</p>
             </div>
-            
+            <GearResult Comp = {Complete}/>
         </motion.div>
     )
 }

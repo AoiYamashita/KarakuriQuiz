@@ -31,18 +31,18 @@ const SetLevels = ({state,setState,setLevelHandle,setGears,setGearsState}) => {
                         const newState = true
                         setLevelHandle(newLv);
                         setState(newState);
-                        setGears([GearGameData[newLv].answer.filter(i => i === 0).length,
+                        setGears([GearGameData[newLv].answer.filter(i => i === 0).length-2,
                                     GearGameData[newLv].answer.filter(i => i === 1).length,
                                     GearGameData[newLv].answer.filter(i => i === 2).length,
                                     GearGameData[newLv].answer.filter(i => i === 3).length]);
-                        setGearsState([GearGameData[newLv].answer.filter(i => i === 0).length,
+                        setGearsState([GearGameData[newLv].answer.filter(i => i === 0).length-2,
                         GearGameData[newLv].answer.filter(i => i === 1).length,
                         GearGameData[newLv].answer.filter(i => i === 2).length,
                         GearGameData[newLv].answer.filter(i => i === 3).length].map(
                             (value,key) => {
                                 const ref = []
                                 for(var i = 0;i < value;i++)
-                                    ref.push({gearNum : key,key:i,setStake:false,stakeNum:-1,Moved:false})
+                                    ref.push({gearNum : key,key:i,setStake:false,stakeNum:-1,Correct:false})
                                 return ref
                             }));
                     }} key={key}>
