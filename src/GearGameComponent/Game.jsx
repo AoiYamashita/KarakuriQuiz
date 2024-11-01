@@ -50,7 +50,6 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
     const makeStakes = () => {
         if(!state){
             return [];
-
         }
 
         const GameConfig = GearGameData[lv];
