@@ -10,6 +10,10 @@ import {AnimatePresence, motion } from "framer-motion"
 import {v4 as uuidv4} from "uuid";
 
 const Quiz = () => {
+    const [QuizNum,setQuizNum] = useState(0);
+    const [Finish,setFinish] = useState(false);
+    const [QuizCorrect,setQuizCorrect] = useState(0);
+
     const ChoiceNum = 4;
     const ButtonStateInit = () => {
         const UC = [];
@@ -18,8 +22,8 @@ const Quiz = () => {
         return UC;
     }
     
-    const QuestionInit = () => {
-        const QuestionId = Math.floor(Math.random()*Question.length);
+    const QuestionInit = (num) => {
+        const QuestionId = num
         const Quiz = Question[QuestionId];
         var QuizChoice = [...Quiz["choice"]];
         var ansFlag = Math.floor(Math.random()*ChoiceNum);
@@ -40,7 +44,7 @@ const Quiz = () => {
     }
 
     const [ButtonState,setButtonState] = useState(ButtonStateInit());
-    const [Choices,setChoices] = useState(QuestionInit());
+    const [Choices,setChoices] = useState(QuestionInit(0));
     const [Correct,setCorrect] = useState({isAnswerd : false,state:false});
 
     const UserClickHandle = (id) => {
@@ -57,8 +61,13 @@ const Quiz = () => {
 
     const ClickSubmit = () => {
         if(Correct.isAnswerd){
+            if(QuizNum+1 === Question.length){
+                setFinish(true);
+                return;
+            }
+            setQuizNum(QuizNum+1)
             setButtonState(ButtonStateInit());
-            setChoices(QuestionInit());
+            setChoices(QuestionInit(QuizNum+1));
             setCorrect({isAnswerd : false,state:false});
             return
         }
@@ -67,6 +76,7 @@ const Quiz = () => {
         //console.log(ButtonState[isCollect[0].id]);
         if(ButtonState[isCollect[0].id].backgroundColor === "green"){
             setCorrect({isAnswerd : true,state:true});
+            setQuizCorrect(QuizCorrect+1);
         }
         else{
             setCorrect({isAnswerd : true,state:false});
@@ -122,6 +132,22 @@ const Quiz = () => {
             <div className = "SubmitButton">
                 <Submit onClick = {ClickSubmit} text = "答え合わせ"/>    
             </div>
+            <motion.div className='FinalResult'
+                initial={{
+                    opacity:0,
+                    visibility:"hidden"
+                }
+                }
+                animate={{
+                    opacity:Finish ? 1:0,
+                    visibility:Finish ? "visible":"hidden"
+                }}
+                style={{
+                    backgroundColor : (QuizCorrect === Question.length) ? "yellow":"white"
+                }}
+                >
+                <p>{(QuizCorrect === Question.length) ? "全問正解　素晴らしい":"何問か間違ってしまったね。もう一度やってみよう！"}<br/>{(QuizCorrect === Question.length) ? "この画面を見せて景品を受け取ろう!!":""}</p>
+            </motion.div>
         </motion.div>
     )
 }

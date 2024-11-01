@@ -5,7 +5,7 @@ import Quiz from '../QuizComponent/Quiz'
 export const SideBarData = [
     {
         text:"HOME",
-        path:"./",
+        path:"./KarakuriQuiz",
     },
     {
         text:"QUIZ",

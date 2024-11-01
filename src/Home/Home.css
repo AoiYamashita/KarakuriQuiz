@@ -1,0 +1,52 @@
+.Home{
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template:
+    "title" 1fr
+    "mainContent" 1fr
+    "links" 1fr
+    /1fr;
+    width: 100%;
+    height: 100vh;
+}
+
+.title{
+    border: 5px double black;
+    grid-area: title;
+    font-size: 50%;
+}
+
+.mainContent{
+    grid-area: mainContent;
+}
+
+.Links{
+    grid-area: links;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template:
+    "quiz" 1fr
+    "gear" 1fr
+    /1fr;
+}
+
+.QuizLink{
+    border: 10px double black;
+    width: 100%;
+    background-blend-mode:lighten;
+    text-align: center;
+    font-size: 200%;
+    grid-area: quiz;
+}
+
+.GearLink{
+    border: 10px double black;
+    grid-area: gear;
+    width: 100%;
+    text-align: center;
+    font-size: 200%;
+}

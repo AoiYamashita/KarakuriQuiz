@@ -14,6 +14,7 @@ function App() {
         <AnimatePresence>
             <motion.div className='MainDiv'>
                 <Routes locations={location} key={location.pathname}>
+                    <Route path="/KarakuriQuiz" element={<Home />}/>
                     <Route path="/" element={<Home />}/>
                     <Route path="/quiz" element={<Quiz />} />
                     <Route path="/gear" element={<GearGame />} />
