@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/KarakuriQuiz/static/css/main.d9c3e121.css",
+    "main.css": "/KarakuriQuiz/static/css/main.ec3781b8.css",
     "main.js": "/KarakuriQuiz/static/js/main.e060b16a.js",
     "static/media/gearBackGroud.PNG": "/KarakuriQuiz/static/media/gearBackGroud.d9efb8f307df49912ea5.PNG",
     "static/media/stakeImg.png": "/KarakuriQuiz/static/media/stakeImg.3a28a9517c92e23713d3.png",
@@ -11,11 +11,11 @@
     "static/media/gear20.png": "/KarakuriQuiz/static/media/gear20.59bfcbd69cebdf6a0501.png",
     "static/media/gear10.png": "/KarakuriQuiz/static/media/gear10.599a2fe87bc805df0c5b.png",
     "index.html": "/KarakuriQuiz/index.html",
-    "main.d9c3e121.css.map": "/KarakuriQuiz/static/css/main.d9c3e121.css.map",
+    "main.ec3781b8.css.map": "/KarakuriQuiz/static/css/main.ec3781b8.css.map",
     "main.e060b16a.js.map": "/KarakuriQuiz/static/js/main.e060b16a.js.map"
   },
   "entrypoints": [
-    "static/css/main.d9c3e121.css",
+    "static/css/main.ec3781b8.css",
     "static/js/main.e060b16a.js"
   ]
 }
