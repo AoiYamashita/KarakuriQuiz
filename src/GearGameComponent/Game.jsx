@@ -42,7 +42,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
             const rect = stakeRef.current.getBoundingClientRect();
             setStakeState({
                 x: rect.x+rect.width/2,    // x座標
-                y: rect.y-6*height/183,    // y座標
+                y: rect.y,    // y座標
             });
         }
     }
@@ -129,7 +129,6 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
                 position:'absolute',
                 aspectRatio: '1/1',
                 width : (2*Gears[0]+10+"px"),
-                transform:"translate(-50%,-50%)"
             }}
             initial = {{
                 x : stakesCoord[stakesCoord.length-1][0],
@@ -183,7 +182,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
             const rect = GearRef.current.getBoundingClientRect();
             const fix = {
                 x: 0,    // x座標
-                y:- StakeState.y - rect.y - rect.height/2,    // y座標
+                y:- StakeState.y - rect.y,    // y座標
             };
             setCoordFix(fix);
             var flag = true;
