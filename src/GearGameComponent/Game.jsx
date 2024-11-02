@@ -21,7 +21,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
 
     const { width, height } = useWindowSize();
 
-    const stakeArea = 30*height/183;
+    const stakeArea = 60*height/183;
     
     const Gears = [10,14,18,20].map((value) => {return value*height/200})
 
@@ -42,7 +42,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
             const rect = stakeRef.current.getBoundingClientRect();
             setStakeState({
                 x: rect.x+rect.width/2,    // x座標
-                y: rect.y,    // y座標
+                y: rect.y-6*height/183,    // y座標
             });
         }
     }
@@ -82,7 +82,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
                             x:0,
                             y:0
                         }}
-                        animate={{
+                        animate={{                           
                             x:i[0]+"px",
                             y:i[1]+"px",
                         }
@@ -128,7 +128,8 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
             style={{
                 position:'absolute',
                 aspectRatio: '1/1',
-                width : (2*Gears[0]+10+"px")
+                width : (2*Gears[0]+10+"px"),
+                transform:"translate(-50%,-50%)"
             }}
             initial = {{
                 x : stakesCoord[stakesCoord.length-1][0],
@@ -182,7 +183,7 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
             const rect = GearRef.current.getBoundingClientRect();
             const fix = {
                 x: 0,    // x座標
-                y:- StakeState.y - rect.y,    // y座標
+                y:- StakeState.y - rect.y - rect.height/2,    // y座標
             };
             setCoordFix(fix);
             var flag = true;
@@ -252,7 +253,8 @@ const Game = ({state,lv,UsingGears,setUsingGears,setGearsState,GearsState,setLvS
                                 style={{
                                     position:'absolute',
                                     aspectRatio: '1/1',
-                                    width : (2*Gears[key]+10+"px")
+                                    width : (2*Gears[key]+10+"px"),
+                                    transform:"translate(-50%,-50%)"
                                 }}
                                 initial = {{
                                     x : value.setStake ? stakesCoord[value.stakeNum][0]+CoordFix.x : 0,
